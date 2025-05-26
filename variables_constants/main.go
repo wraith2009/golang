@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// the main function is the entry point of our program
 func main() {
 	var a int = 10
 	var b float64 = 3.14
