@@ -17,6 +17,7 @@ func worker(id int) {
 	fmt.Printf("Worker %d done\n", id)
 }
 
+
 // main is the entry point of the program.
 //
 // It launches two goroutines running the `worker` function with different IDs.
@@ -25,6 +26,24 @@ func worker(id int) {
 // NOTE: In production code, it's better to use sync.WaitGroup to synchronize goroutines
 // rather than using time.Sleep.
 func main() {
+	
+	// go func() {
+    // 	fmt.Println("Hello from a goroutine")
+	// }()
+
+	// for i := 0; i < 3; i++ {
+	// 	go func() {
+	// 		fmt.Println(i) // bug: i may be 3 for all goroutines
+	// 	}()
+	// }
+
+	// for i := 0; i < 3; i++ {
+	// 	go func(n int) {
+	// 		fmt.Println(n) // correctly prints 0,1,2 (in some order)
+	// 	}(i)
+	// }
+	
+	
 	go worker(1) // launch worker 1 in a new goroutine
 	go worker(2) // launch worker 2 concurrently
 
