@@ -90,3 +90,10 @@ func main() {
 	// fmt.Println(<-c2) // reads 1
 	// fmt.Println(<-c2) // reads 2
 	
+
+	// func worker(jobs <-chan int, results chan<- int) {
+	// 	for j := range jobs {
+	// 		results <- j*2 // send results
+	// 	}
+	// // }
+	// Here jobs is <-chan int (receive-only) and results is chan<- int (send-only). This helps document intent and prevents misuse (the compiler will forbid sends on a <-chan or receives on a chan<-)
