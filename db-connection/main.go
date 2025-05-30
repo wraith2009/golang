@@ -14,7 +14,7 @@ type Product struct {
 }
 
 func main() {
-	connStr := ""
+	connStr := "postgresql://neondb_owner:npg_u0LBRYDK1EhW@ep-delicate-mode-a1cpws82-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
 
 	db , err := sql.Open("postgres", connStr)
 
@@ -35,6 +35,19 @@ func main() {
 	pk := InsertIntoProduct(db, product)
 
 	fmt.Printf("ID = %d\n", pk)
+
+
+	var name string
+	var price float64
+
+	query := "SELECT name,price FROM product where id = $1"
+	err = db.QueryRow(query, pk).Scan(&name , &price)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Name: %s\n", name)
+	fmt.Printf("price: %f\n", price)
 }
 
 func createProductTable(db *sql.DB) {

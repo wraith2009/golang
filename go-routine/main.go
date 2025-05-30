@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -9,9 +10,13 @@ import (
 //
 // Parameters:
 //   - id: An integer identifier for the worker.
-//
+//	 - wg: A pointer to a sync.WaitGroup used to wait for all goroutines to finish.
+
 // This function is intended to run as a goroutine to simulate concurrent execution.
-func worker(id int) {
+func worker(id int, wg *sync.WaitGroup) {
+
+	defer wg.Done()
+	
 	fmt.Printf("Worker %d starting\n", id)
 	time.Sleep(time.Second) // Simulates work with a 1-second delay
 	fmt.Printf("Worker %d done\n", id)
@@ -43,11 +48,14 @@ func main() {
 	// 	}(i)
 	// }
 	
-	
-	go worker(1) // launch worker 1 in a new goroutine
-	go worker(2) // launch worker 2 concurrently
+	var wg sync.WaitGroup
 
-	time.Sleep(2 * time.Second) // wait for both workers to complete their work
+	wg.Add(2) // we're launching 2 workers
+	
+	go worker(1, &wg) // launch worker 1 in a new goroutine
+	go worker(2, &wg) // launch worker 2 concurrently
+
+	wg.Wait()  // wait for all worker go routing to complete
 
 	fmt.Println("All workers launched")
 }
